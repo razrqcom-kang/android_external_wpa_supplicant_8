@@ -33,6 +33,8 @@
 
 #ifdef ANDROID
 #include "android_drv.h"
+int wpa_driver_wext_driver_cmd( void *priv, char *cmd, char *buf, size_t buf_len );
+int wpa_driver_signal_poll(void *priv, struct wpa_signal_info *si);
 #endif /* ANDROID */
 
 static int wpa_driver_wext_flush_pmkid(void *priv);
@@ -40,11 +42,6 @@ static int wpa_driver_wext_get_range(void *priv);
 static int wpa_driver_wext_finish_drv_init(struct wpa_driver_wext_data *drv);
 static void wpa_driver_wext_disconnect(struct wpa_driver_wext_data *drv);
 static int wpa_driver_wext_set_auth_alg(void *priv, int auth_alg);
-#ifdef ANDROID
-extern int wpa_driver_wext_driver_cmd(void *priv, char *cmd, char *buf,
-                                       size_t buf_len);
-extern int wpa_driver_signal_poll(void *priv, struct wpa_signal_info *si);
-#endif
 
 
 int wpa_driver_wext_set_auth_param(struct wpa_driver_wext_data *drv,
@@ -2503,7 +2500,7 @@ const struct wpa_driver_ops wpa_driver_wext_ops = {
 #ifdef ANDROID
 	.sched_scan = wext_sched_scan,
 	.stop_sched_scan = wext_stop_sched_scan,
-	.signal_poll = wpa_driver_signal_poll,
 	.driver_cmd = wpa_driver_wext_driver_cmd,
+	.signal_poll = wpa_driver_signal_poll,
 #endif /* ANDROID */
 };
